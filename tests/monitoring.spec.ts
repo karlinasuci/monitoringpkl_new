@@ -5,7 +5,6 @@ import { PlaywrightRekapanLaporanPKLPage } from './laporan/laporan';
 import { PlaywrightBuatLaporanPKLPage } from './laporan/create_laporan';
 import { PlaywrightTanyaJawabPage } from './chat/tanyajawab';
 import { PlaywrightEditLaporanPKLPage } from './laporan/edit_laporan';
-import exp from 'node:constants';
 
 const laporanId = '12345';
 
@@ -25,15 +24,12 @@ test.describe('PKL Reporting Tests', () => {
     TanyaJawabPage = new PlaywrightTanyaJawabPage(page);
     editLaporanPage = new PlaywrightEditLaporanPKLPage(page);
     
-    
-    
     await page.goto('http://localhost:8000/login');
     await page.waitForURL('http://localhost:8000/siswa', { timeout: 60000 });
-
     
   });
 
-  
+
   test('playwright dashboard', async ({ page })  => {
     
     await expect(page.getByText('Welcome To PKL Monitoring')).toBeVisible();
