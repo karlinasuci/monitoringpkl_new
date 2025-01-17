@@ -45,19 +45,22 @@ export class PlaywrightBuatLaporanPKLPage {
     await expect(this.submitButton).toBeVisible();
   }
 
-  async submitForm(studentName: string, studentClass: string, major: string, reportDate: string, activity: string, description: string, filePath: string) {
+  async submitForm(studentName: string, studentClass: string, major: string, reportDate: string, activity: string, description: string, filePath?: string) {
     await this.studentNameInput.fill(studentName);
     await this.classInput.fill(studentClass);
     await this.majorInput.fill(major);
     await this.reportDateInput.fill(reportDate);
     await this.activityInput.fill(activity);
     await this.descriptionTextarea.fill(description);
-    await this.fileInput.setInputFiles(filePath);
+    if(filePath) await this.fileInput.setInputFiles(filePath);
     await this.submitButton.click();
+    
   }
 
   async checkSuccessMessage() {
     await expect(this.successMessage).toBeVisible();
     await expect(this.successMessage).toContainText('Laporan PKL berhasil dikirim');
   }
+
+  
 }

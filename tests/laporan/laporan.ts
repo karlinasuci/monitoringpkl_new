@@ -4,19 +4,20 @@ export class PlaywrightRekapanLaporanPKLPage {
   readonly page: Page;
   readonly baseURL: string;
   readonly sidebar: Locator;
-  readonly dashboardHeader: Locator;
   readonly laporanTable: Locator;
   readonly addLaporanButton: Locator;
   readonly printPDFButton: Locator;
+  readonly AddHeader: Locator;
 
+ 
   constructor(page: Page) {
     this.page = page;
     this.baseURL = 'http://localhost:8000/laporan';
-    this.sidebar = page.locator('.sidebar');
-    this.dashboardHeader = page.locator('text= Welcome to PKL Monitoring');
+    this.sidebar = page.locator('.sidebar-class');
+    this.AddHeader = page.locator('h1:text("Rekapan Laporan PKL")');
     this.laporanTable = page.locator('.table');
-    this.addLaporanButton = page.locator('a.btn.btn-primary');
     this.printPDFButton = page.locator('a.btn.btn-danger');
+    this.addLaporanButton = page.locator('a.btn.btn-primary', { hasText: 'Tambah Laporan PKL' });
   }
 
   async navigateToPage() {
@@ -28,15 +29,15 @@ export class PlaywrightRekapanLaporanPKLPage {
   }
 
   async checkSidebar() {
-    await expect(this.sidebar).toBeVisible();
-  }
+    await expect(this.sidebar).toBeVisible;
+}
 
-  async checkDashboardHeader() {
-    await expect(this.dashboardHeader).toBeVisible();
+  async checkTitlle() {
+    await expect(this.page.getByText('Rekapan Laporan PKL')).toBeVisible();
   }
 
   async checkLaporanHeader() {
-    await expect(this.dashboardHeader).toBeVisible(); 
+    await expect(this.AddHeader).toBeVisible(); 
     await this.page.waitForURL('http://localhost:8000/laporan', { timeout: 10000 }); 
   }
 
@@ -48,7 +49,8 @@ export class PlaywrightRekapanLaporanPKLPage {
 
   async checkAddLaporanButton() {
     await expect(this.addLaporanButton).toBeVisible();
-    await this.page.waitForURL('http://localhost:8000/laporan/create', { timeout: 60000 });
+    await this.addLaporanButton.click();
+    await this.page.waitForURL('http://localhost:8000/laporan/create');
   }
 
   async checkPrintPDFButton() {
@@ -56,7 +58,6 @@ export class PlaywrightRekapanLaporanPKLPage {
   }
 
   async createNewLaporan() {
-    await this.addLaporanButton.click();
     await this.page.waitForURL(`${this.baseURL}/create`);
   }
 
